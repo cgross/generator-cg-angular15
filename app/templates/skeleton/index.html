@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="<%= _.camelize(appname) %>">
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+</head>
+<body>
+
+<script src="bundle.js"></script>
+
+  <div>
+    <div id="content" class="container">
+      <div class="row">
+        <div ng-view>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
