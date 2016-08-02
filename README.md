@@ -110,5 +110,5 @@ The new app will have a handful of preconfigured libraries included.  This inclu
 
 Release History
 -------------
-* 07/99/2016 - v1.0 - First release.
+* 08/02/2016 - v1.0 - First release.
 
