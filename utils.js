@@ -4,7 +4,7 @@ var _ = require('underscore');
 var chalk = require('chalk');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
-var ngParseModule = require('ng-parse-module');
+var ngParseModuleTs = require('./ngParseModuleTs');
 
 
 exports.JS_MARKER = "<!-- Add New Component JS Above -->";
@@ -80,8 +80,8 @@ exports.processTemplates = function(name,dir,type,that,defaultDir,configName,mod
 
 exports.inject = function(filename,that,module) {
     //special case to skip unit tests
-    if (_(filename).endsWith('-spec.js') ||
-        _(filename).endsWith('_spec.js')) {
+    if (_(filename).endsWith('-spec.ts') ||
+        _(filename).endsWith('_spec.ts')) {
         return;
     }
     var ext = path.extname(filename);
@@ -90,7 +90,7 @@ exports.inject = function(filename,that,module) {
     }
     var config = that.config.get('inject')[ext];
     if (config) {
-        var configFile = _.template(config.file)({module:path.basename(module.file,'.js')});
+        var configFile = _.template(config.file)({module:path.basename(module.file,'.ts')});
         var injectFileRef = filename;
         if (config.relativeToModule) {
             configFile = path.join(path.dirname(module.file),configFile);
@@ -138,10 +138,10 @@ exports.getParentModule = function(dir){
     if (fs.existsSync(dir)) {
         var files = fs.readdirSync(dir);
         for (var i = 0; i < files.length; i++) {
-            if (path.extname(files[i]) !== '.js') {
+            if (path.extname(files[i]) !== '.ts') {
                 continue;
             }
-            var results = ngParseModule.parse(path.join(dir,files[i]));
+            var results = ngParseModuleTs.parse(path.join(dir,files[i]));
             if (results) {
                 return results;
             }
@@ -159,7 +159,7 @@ exports.getParentModule = function(dir){
 exports.askForModule = function(type,that,cb){
 
     var modules = that.config.get('modules');
-    var mainModule = ngParseModule.parse('app.js');
+    var mainModule = ngParseModuleTs.parse('app.ts');
     mainModule.primary = true;
 
     if (!modules || modules.length === 0) {
@@ -180,7 +180,7 @@ exports.askForModule = function(type,that,cb){
         }
     ];
 
-    that.prompt(prompts, function (props) {
+    that.prompt(prompts).then(function (props) {
 
         var i = choices.indexOf(props.module);
 
@@ -189,7 +189,7 @@ exports.askForModule = function(type,that,cb){
         if (i === 0) {
             module = mainModule;
         } else {
-            module = ngParseModule.parse(modules[i-1].file);
+            module = ngParseModuleTs.parse(modules[i-1].file);
         }
 
         cb.bind(that)(module);
@@ -247,11 +247,11 @@ exports.askForDir = function(type,that,module,ownDir,cb){
                 name:'isConfirmed',
                 type:'confirm',
                 message:chalk.cyan(dirToCreate) + ' does not exist.  Create it?'
-            }],function(props){
+            }]).then(function(props){
                 if (props.isConfirmed){
                     cb();
                 } else {
-                    that.prompt(dirPrompt,dirPromptCallback);
+                    that.prompt(dirPrompt).the(dirPromptCallback);
                 }
             });
         } else if (ownDir && fs.existsSync(that.dir)){
@@ -260,11 +260,11 @@ exports.askForDir = function(type,that,module,ownDir,cb){
                 name:'isConfirmed',
                 type:'confirm',
                 message:chalk.cyan(that.dir) + ' already exists.  Components of this type contain multiple files and are typically put inside directories of their own.  Continue?'
-            }],function(props){
+            }]).then(function(props){
                 if (props.isConfirmed){
                     cb();
                 } else {
-                    that.prompt(dirPrompt,dirPromptCallback);
+                    that.prompt(dirPrompt).then(dirPromptCallback);
                 }
             });
         } else {
@@ -273,7 +273,7 @@ exports.askForDir = function(type,that,module,ownDir,cb){
 
     };
 
-    that.prompt(dirPrompt,dirPromptCallback);
+    that.prompt(dirPrompt).then(dirPromptCallback);
 
 };
 
@@ -283,10 +283,11 @@ exports.askForModuleAndDir = function(type,that,ownDir,cb) {
     });
 };
 
-exports.getNameArg = function(that,args){
-    if (args.length > 0){
-        that.name = args[0];
-    }
+exports.getNameArg = function(that){
+
+    that.argument('name', { type: String, required: false });
+    that.appname = _.camelize(that.name);
+
 };
 
 exports.addNamePrompt = function(that,prompts,type){

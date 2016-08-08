@@ -9,12 +9,12 @@ module.exports = function(config) {
         reporters:['mocha'],
         browsers: ['PhantomJS'],
         files: [
-            'test_setup.js',
-            '!(node_modules)/**/*-spec.js'
+            'test_setup.ts',
+            '!(node_modules)/**/*-spec.ts'
         ],
         preprocessors: {
-            'test_setup.js': ['webpack'],
-            '!(node_modules)/**/*-spec.js': ['webpack']
+            'test_setup.ts': ['webpack'],
+            '!(node_modules)/**/*-spec.ts': ['webpack']
         },
         webpack: webpack,
         webpackMiddleware: {

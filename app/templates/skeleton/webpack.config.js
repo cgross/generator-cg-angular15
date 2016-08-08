@@ -1,7 +1,7 @@
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: "./index.js",
+    entry: "./index.ts",
     output: {
         path: './dist',
         filename: "bundle.js"
@@ -16,23 +16,18 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin([{ from: 'index.html', to: '.'}])
-    ],    
+    ],
+    resolve: {
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+    },       
     module: {
-        preLoaders: [{
-            test: /\.js$/, 
-            loader: "eslint-loader", 
-            exclude: /node_modules/
-        }],
-        loaders: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'babel',
-            query: {
-                presets: ['es2015']
-            }
-        },{ 
-            test: /\.js$/, 
+        loaders: [{ 
+            test: /\.tsx?$/, 
             loader: 'ng-annotate'
+        },{ 
+            test: /\.tsx?$/, 
+            loader: 'ts-loader' 
         },{ 
             test: /\.html$/, 
             loader: 'html'

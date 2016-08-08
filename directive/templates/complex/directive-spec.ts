@@ -1,10 +1,10 @@
-describe('<%= _.camelize(name) %>', function() {
+describe('<%= _s.camelize(name) %>', function() {
 
   beforeEach(angular.mock.module('<%= appname %>'));
 
-  var scope,compile;
+  var scope:ng.IScope,compile:ng.ICompileService;
 
-  beforeEach(inject(function($rootScope,$compile) {
+  beforeEach(inject(function($rootScope:ng.IScope,$compile:ng.ICompileService) {
     scope = $rootScope.$new();
     compile = $compile;
   }));

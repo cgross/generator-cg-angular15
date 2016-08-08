@@ -1,5 +1,4 @@
 'use strict';
-var util = require('util');
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var cgUtils = require('../utils.js');
@@ -10,35 +9,34 @@ var fs = require('fs');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
-var FilterGenerator = module.exports = function FilterGenerator(args, options, config) {
+module.exports = yeoman.Base.extend({
 
-    cgUtils.getNameArg(this,args);
+    constructor: function() {
+        yeoman.Base.apply(this, arguments);
+        cgUtils.getNameArg(this);
+        this._s = _.str;
+    },
 
-    yeoman.generators.Base.apply(this, arguments);
+    prompting: function() {
+        var cb = this.async();
 
-};
+        var prompts = [];
 
-util.inherits(FilterGenerator, yeoman.generators.Base);
+        cgUtils.addNamePrompt(this,prompts,'filter');
 
-FilterGenerator.prototype.askFor = function askFor() {
-    var cb = this.async();
+        this.prompt(prompts).then(function(props) {
+            if (props.name){
+                this.name = props.name;
+            }
+            cgUtils.askForModuleAndDir('filter',this,false,cb);
+        }.bind(this));    
+    },
 
-    var prompts = [];
+    writing: function() {
 
-    cgUtils.addNamePrompt(this,prompts,'filter');
+         cgUtils.processTemplates(this.name,this.dir,'filter',this,null,null,this.module);
+    },
 
-    this.prompt(prompts, function (props) {
-        if (props.name){
-            this.name = props.name;
-        }
-        cgUtils.askForModuleAndDir('filter',this,false,cb);
-    }.bind(this));    
 
-    
-};
 
-FilterGenerator.prototype.files = function files() {
-
-    cgUtils.processTemplates(this.name,this.dir,'filter',this,null,null,this.module);
-
-};
+});
