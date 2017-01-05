@@ -1,18 +1,18 @@
 #generator-cg-angular15
 
->Yeoman Generator for Enterprise Angular 1.5 Projects with TypeScript, Webpack, and Sass.
+>Yeoman Generator for Enterprise Angular 1 Projects with TypeScript, Webpack, and Sass.
 
 Features
 
 * Component-Oriented.  Develop using Angular 1.5's new `component()` helper to create component-centric apps.
-* Includes a complete Webpack configuration using npm for package management.
+* Includes a complete Webpack configuration using Yarn for package management.
 * Use TypeScript.
 * Provides a directory structure geared towards large Angular projects.
     * Each component, service, filter, and directive are placed in their own file.
     * All files related to a conceptual unit are placed together.  For example, the controller, HTML, SCSS, and unit test for a component are placed together in the same directory.
 * Includes Yeoman subgenerators for components, directives, services, filters, and modules.
 * Integrates Sass and includes Bootstrap via the source SCSS files allowing you to reuse Bootstrap vars/mixins/etc.
-* Easily Testable - Each sub-generator creates a skeleton unit test.  Unit tests can be run via `npm test`.
+* Easily Testable - Each sub-generator creates a skeleton unit test.  Unit tests can be run via `yarn test`.
 
 Directory Layout
 -------------
@@ -49,14 +49,14 @@ In this example, the user has chosen to group the app into an `admin` folder, a 
         my-service-spec.ts ......... example service unit test
         my-service2.ts ............. example service
         my-service2-spec.ts ........ example service unit test
-    /dist .......................... distributable version of app built using `npm run build`.
+    /dist .......................... distributable version of app built using `yarn run build`.
 
 Getting Started
 -------------
 
-Prerequisites: Node, Yeoman, Webpack, and Karma.  Once Node is installed, do:
+Prerequisites: Node, Yarn.  Once Node is installed, do:
 
-    npm install -g yo karma webpack webpack-dev-server typings generator-cg-angular15
+    yarn global add yo karma webpack webpack-dev-server typings generator-cg-angular15
 
 To create a project:
 
@@ -64,14 +64,14 @@ To create a project:
     cd MyNewAwesomeApp
     yo cg-angular15
 
-NPM Scripts
+Yarn Scripts
 -------------
 
-Now that the project is created, you have 3 simple npm commands available:
+Now that the project is created, you have 3 simple Yarn commands available:
 
-    npm start       #This will run a development server with livereload (i.e. the webpack-dev-server).
-    npm test        #Runs unit tests with Karma.
-    npm run build   #Places a fully optimized build (minified, concatenated, and more) in /dist
+    yarn start       #This will run a development server with livereload (i.e. the webpack-dev-server).
+    yarn test        #Runs unit tests with Karma.
+    yarn run build   #Places a fully optimized build (minified, concatenated, and more) in /dist
 
 Yeoman Subgenerators
 -------------
@@ -106,7 +106,7 @@ Submodules allow you to more explicitly separate parts of your application.  Use
 ES2015/TypeScript Module Imports
 -------------
 
-When importing most npm (i.e. CommonJS/ES5) modules, you'll need to use the syntax:
+When importing most CommonJS/ES5 modules, you'll need to use the syntax:
 
 ```js
 import * as angular from 'angular';
@@ -128,5 +128,6 @@ The new app will have a handful of preconfigured libraries included.  This inclu
 
 Release History
 -------------
+* 01/05/2017 - v1.0.0 - Upgrade to TS 2, Angular 1.6. Replace NPM with Yarn.
 * 08/08/2016 - v0.9.0 - First release.
 

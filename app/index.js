@@ -36,7 +36,7 @@ module.exports = yeoman.Base.extend({
 
     },
 
-    install: function() {
+    app: function() {
 
         this.directory('skeleton/','./'); 
         
@@ -48,7 +48,7 @@ module.exports = yeoman.Base.extend({
         var inject = {
             ts: {
                 file: 'index.ts',
-                template: 'import \'./<%= filename %>\';',
+                template: 'import \'./<%= filename.substring(0,filename.lastIndexOf(\'.\')) %>\';',
                 relativeToModule: true
             },
             scss: {
@@ -60,9 +60,12 @@ module.exports = yeoman.Base.extend({
         };
         this.config.set('inject',inject);
         this.config.save();
-        this.installDependencies({ bower: false, callback: () => {
-            this.spawnCommandSync('typings', ['install']);
-        } });        
+
+    },
+
+    install: function() {
+        this.spawnCommandSync('yarn');
+        this.spawnCommandSync('typings',['install']);
     }
 
 });

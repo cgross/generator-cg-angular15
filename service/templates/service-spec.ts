@@ -1,4 +1,4 @@
-import {<%= _s.capitalize(_s.camelize(name)) %>} from './<%= name %>.ts';
+import {<%= _s.capitalize(_s.camelize(name)) %>} from './<%= name %>';
 
 describe('<%= _s.camelize(name) %>', function() {
 

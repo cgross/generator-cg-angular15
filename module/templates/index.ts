@@ -1,4 +1,4 @@
 export = '<%= _s.camelize(name) %>';
 
-import './<%= name %>.ts';
+import './<%= name %>';
 import './<%= name %>.scss';

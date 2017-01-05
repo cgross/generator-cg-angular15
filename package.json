@@ -1,7 +1,7 @@
 {
   "name": "generator-cg-angular15",
-  "version": "0.9.0",
-  "description": "Yeoman Generator for Enterprise Angular 1.5 projects with Webpack.",
+  "version": "1.0.0",
+  "description": "Yeoman Generator for Enterprise Angular 1 projects with Webpack.",
   "keywords": [
     "yeoman-generator",
     "angular"
